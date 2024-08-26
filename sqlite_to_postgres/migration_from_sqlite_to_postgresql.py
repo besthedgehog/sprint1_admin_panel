@@ -12,6 +12,8 @@ import yaml
 class Table:
     name: str
     sql_creation_command: str
+    all_data: tuple = tuple()
+    name_of_columns: tuple = tuple()
 
 
 # Словарь для сопоставления типов данных SQLite с типами Python
