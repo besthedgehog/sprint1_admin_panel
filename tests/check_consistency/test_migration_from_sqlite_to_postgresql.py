@@ -134,7 +134,9 @@ def main():
     with (sqlite3.connect(path_to_sqlite_db) as sqlite_conn, psycopg.connect(
         **dsl, row_factory=dict_row, cursor_factory=ClientCursor
     ) as pg_conn):
-        data_from_sqlite = get_all_information_from_sqlite(sqlite_conn)
+
+        batch_size = 10
+        data_from_sqlite = get_all_information_from_sqlite(sqlite_conn, batch_size)
 
         data_from_postgre = get_all_information_from_postgre(pg_conn)
 

@@ -24,7 +24,7 @@ sqlite_to_python_types = {
 }
 
 
-def get_all_information_from_sql(conn):
+def get_all_information_from_sql(conn, batch_size):
     """
     Функция возвращает список SQL запросов
     для создания всех таблиц
@@ -56,10 +56,9 @@ def get_all_information_from_sql(conn):
         cursor.execute(f"SELECT * FROM {table_instance.name};")
         all_data = list()
 
-        # Извлечём данные по частям
-        n: int = 100
+
         while True:
-            piece_of_data: tuple = cursor.fetchmany(n)
+            piece_of_data: tuple = cursor.fetchmany(batch_size)
             if not piece_of_data:
                 break
             else:
@@ -131,7 +130,7 @@ def main():
 
         cursor = pg_conn.cursor()
 
-        tableSQLite = get_all_information_from_sql(sqlite_conn)
+        tableSQLite = get_all_information_from_sql(sqlite_conn, batch_size)
 
         for table in tableSQLite:
             # Удалим существующие таблицы с такими именами
